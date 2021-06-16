@@ -19,7 +19,7 @@ class Calc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Calculator();
-  }//noiceee
+  }
 }
 
 class Calculator extends StatefulWidget {
