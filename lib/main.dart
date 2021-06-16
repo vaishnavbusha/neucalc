@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
 
 main(List<String> args) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -24,6 +25,17 @@ class Calc extends StatelessWidget {
 class Calculator extends StatefulWidget {
   @override
   _CalculatorState createState() => _CalculatorState();
+}
+
+class ThemeProvider extends ChangeNotifier {
+  ThemeMode themeMode = ThemeMode.dark;
+
+  bool get IsDarkMode => themeMode == ThemeMode.dark;
+
+  void toggleTheme(bool isOn) {
+    themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+    notifyListeners();
+  }
 }
 
 class _CalculatorState extends State<Calculator> {
@@ -82,216 +94,246 @@ class _CalculatorState extends State<Calculator> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Color(0xFFE5EAED),
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      //color: Colors.red,
-                      child: Text(
-                        _history,
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                              color: Colors.black45, letterSpacing: .5),
-                        ),
-                        textAlign: TextAlign.right,
-                        textScaleFactor: 2,
-                      ),
-                      margin: EdgeInsets.only(left: 30, right: 30),
-                    ),
-                    Container(
-                      //color: Colors.blue,
-                      child: AutoSizeText(
-                        _expression,
-                        maxLines: 2,
-                        overflowReplacement: Text(
-                          'Sorry String too long',
-                          style: GoogleFonts.montserrat(
-                            textStyle: TextStyle(
-                                color: Colors.black, letterSpacing: .5),
-                          ),
-                        ),
-                        style: GoogleFonts.montserrat(
-                          textStyle:
-                              TextStyle(color: Colors.black, letterSpacing: .5),
-                        ),
-                        textScaleFactor: 4,
-                      ),
-                      margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
-                    ),
-                  ],
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      builder: (context, _) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
+        return MaterialApp(
+          theme: ThemeData.light(),
+          // Provide light theme.
+          darkTheme: ThemeData.dark(),
+          // Provide dark theme.
+          themeMode: themeProvider.themeMode,
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(
+            // backgroundColor: Color(0xFFE5EAED),
+            appBar: AppBar(
+              backgroundColor: Color(0xff424242),
+              centerTitle: true,
+              title: Text(
+                'calculaTHOR',
+                style: GoogleFonts.montserrat(
+                  textStyle: TextStyle(
+                    // color: Colors.black45,
+                    letterSpacing: .5,
+                  ),
                 ),
               ),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Neubutton(
-                            symbol: 'AC',
-                            color: Color(0xFFF05454),
-                            buttononclick: allClear,
+              actions: [ChangeThemeButtonWidget()],
+            ),
+            body: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          //color: Colors.red,
+                          child: Text(
+                            _history,
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                // color: Colors.black45,
+                                letterSpacing: .5,
+                              ),
+                            ),
+                            textAlign: TextAlign.right,
+                            textScaleFactor: 2,
                           ),
-                          Neubutton(
-                            symbol: 'C',
-                            color: Color(0xFFF05454),
-                            buttononclick: clear,
+                          margin: EdgeInsets.only(left: 30, right: 30),
+                        ),
+                        Container(
+                          //color: Colors.blue,
+                          child: AutoSizeText(
+                            _expression,
+                            maxLines: 2,
+                            overflowReplacement: Text(
+                              'Sorry String too long',
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                  // color: Colors.black,
+                                  letterSpacing: .5,
+                                ),
+                              ),
+                            ),
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                // color: Colors.black,
+                                letterSpacing: .5,
+                              ),
+                            ),
+                            textScaleFactor: 4,
                           ),
-                          Neubutton(
-                            symbol: 'del',
-                            color: Color(0xFFF05454),
-                            buttononclick: del,
-                          ),
-                          Neubutton(
-                            symbol: '/',
-                            color: Color(0xFFF05454),
-                            buttononclick: numClick,
-                          ),
-                        ],
-                      ),
+                          margin:
+                              EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Neubutton(
-                            symbol: '7',
-                            color: Colors.black,
-                            buttononclick: numClick,
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Neubutton(
+                                symbol: 'AC',
+                                color: Color(0xFFF05454),
+                                buttononclick: allClear,
+                              ),
+                              Neubutton(
+                                symbol: 'C',
+                                color: Color(0xFFF05454),
+                                buttononclick: clear,
+                              ),
+                              Neubutton(
+                                symbol: 'del',
+                                color: Color(0xFFF05454),
+                                buttononclick: del,
+                              ),
+                              Neubutton(
+                                symbol: '/',
+                                color: Color(0xFFF05454),
+                                buttononclick: numClick,
+                              ),
+                            ],
                           ),
-                          Neubutton(
-                            symbol: '8',
-                            color: Colors.black,
-                            buttononclick: numClick,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Neubutton(
+                                symbol: '7',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '8',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '9',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '*',
+                                color: Color(0xFFF05454),
+                                buttononclick: numClick,
+                              ),
+                            ],
                           ),
-                          Neubutton(
-                            symbol: '9',
-                            color: Colors.black,
-                            buttononclick: numClick,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Neubutton(
+                                symbol: '4',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '5',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '6',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '-',
+                                color: Color(0xFFF05454),
+                                buttononclick: numClick,
+                              ),
+                            ],
                           ),
-                          Neubutton(
-                            symbol: '*',
-                            color: Color(0xFFF05454),
-                            buttononclick: numClick,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Neubutton(
+                                symbol: '1',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '2',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '3',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '+',
+                                color: Color(0xFFF05454),
+                                buttononclick: numClick,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Neubutton(
+                                symbol: '.',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '0',
+                                color: Colors.black,
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '00',
+                                color: Color(0xFFF05454),
+                                buttononclick: numClick,
+                              ),
+                              Neubutton(
+                                symbol: '=',
+                                color: Color(0xFFF05454),
+                                buttononclick: evaluate,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Neubutton(
-                            symbol: '4',
-                            color: Colors.black,
-                            buttononclick: numClick,
-                          ),
-                          Neubutton(
-                            symbol: '5',
-                            color: Colors.black,
-                            buttononclick: numClick,
-                          ),
-                          Neubutton(
-                            symbol: '6',
-                            color: Colors.black,
-                            buttononclick: numClick,
-                          ),
-                          Neubutton(
-                            symbol: '-',
-                            color: Color(0xFFF05454),
-                            buttononclick: numClick,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Neubutton(
-                            symbol: '1',
-                            color: Colors.black,
-                            buttononclick: numClick,
-                          ),
-                          Neubutton(
-                            symbol: '2',
-                            color: Colors.black,
-                            buttononclick: numClick,
-                          ),
-                          Neubutton(
-                            symbol: '3',
-                            color: Colors.black,
-                            buttononclick: numClick,
-                          ),
-                          Neubutton(
-                            symbol: '+',
-                            color: Color(0xFFF05454),
-                            buttononclick: numClick,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Neubutton(
-                            symbol: '.',
-                            color: Colors.black,
-                            buttononclick: numClick,
-                          ),
-                          Neubutton(
-                            symbol: '0',
-                            color: Colors.black,
-                            buttononclick: numClick,
-                          ),
-                          Neubutton(
-                            symbol: '00',
-                            color: Color(0xFFF05454),
-                            buttononclick: numClick,
-                          ),
-                          Neubutton(
-                            symbol: '=',
-                            color: Color(0xFFF05454),
-                            buttononclick: evaluate,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
-
-
 
 // NeumorphicButton(
 //               child: Container(

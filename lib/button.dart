@@ -1,5 +1,8 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'main.dart';
 
 class Neubutton extends StatelessWidget {
   final String symbol;
@@ -16,6 +19,7 @@ class Neubutton extends StatelessWidget {
         buttononclick(symbol);
       },
       style: NeumorphicStyle(
+        shadowLightColor: Colors.transparent,
         shape: NeumorphicShape.concave,
         boxShape: NeumorphicBoxShape.circle(),
         lightSource: LightSource.topRight,
@@ -31,6 +35,21 @@ class Neubutton extends StatelessWidget {
         width: 50,
         height: 50,
       ),
+    );
+  }
+}
+
+class ChangeThemeButtonWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return Switch.adaptive(
+      value: themeProvider.IsDarkMode,
+      onChanged: (value) {
+        final provider = Provider.of<ThemeProvider>(context, listen: false);
+        provider.toggleTheme(value);
+      },
     );
   }
 }
