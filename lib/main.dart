@@ -19,7 +19,7 @@ class Calc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Calculator();
-  }
+  }//noiceee
 }
 
 class Calculator extends StatefulWidget {
@@ -169,7 +169,7 @@ class _CalculatorState extends State<Calculator> {
                             textScaleFactor: 4,
                           ),
                           margin:
-                              EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                          EdgeInsets.only(left: 30, right: 30, bottom: 20),
                         ),
                       ],
                     ),
