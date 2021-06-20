@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 main(List<String> args) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -49,15 +49,15 @@ class _CalculatorState extends State<Calculator> {
     });
   }
 
-  // getchangedtheme() async {
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   return pref.getInt('bgthemecolor');
-  // }
+  getchangedtheme() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getInt('bgthemecolor');
+  }
 
-  // Future setchangedtheme(int bgcolor) async {
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   pref.setInt('bgthemecolor', bgcolor);
-  // }
+  Future setchangedtheme(int bgcolor) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setInt('bgthemecolor', bgcolor);
+  }
 
   void del(String text) {
     setState(() {
@@ -99,7 +99,7 @@ class _CalculatorState extends State<Calculator> {
         //shadowcolor = Color(0xff243441);
         textcolor = Color(0xff0affee);
         specialtextcolor = Color(0xfffa6901);
-        //setchangedtheme(bgcolor);
+        setchangedtheme(bgcolor);
       } else if (bgcolor == 0xff292d36) {
         bgcolor = 0xFF243441;
         toggleicon = Icons.terrain_rounded;
@@ -109,7 +109,7 @@ class _CalculatorState extends State<Calculator> {
         shadowcolor = Color(0xFF243441);
         textcolor = Color(0xff0affee);
         specialtextcolor = Color(0xfffa6901);
-        //setchangedtheme(bgcolor);
+        setchangedtheme(bgcolor);
       } else {
         bgcolor = 0xFFE5EAED;
         toggleicon = Icons.wb_sunny_outlined;
@@ -118,7 +118,7 @@ class _CalculatorState extends State<Calculator> {
         shadowcolor = Color(0xFFE5EAED);
         textcolor = Colors.black;
         specialtextcolor = Color(0xFFF05454);
-        //setchangedtheme(bgcolor);
+        setchangedtheme(bgcolor);
       }
     });
   }
@@ -138,18 +138,18 @@ class _CalculatorState extends State<Calculator> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   checkbgthemecolor();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    checkbgthemecolor();
+  }
 
-  // Future checkbgthemecolor() async {
-  //   int c = await getchangedtheme() ?? 0;
-  //   setState(() {
-  //     bgcolor = c;
-  //   });
-  // }
+  Future checkbgthemecolor() async {
+    int c = await getchangedtheme() ?? setchangedtheme(bgcolor);
+    setState(() {
+      bgcolor = c;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
