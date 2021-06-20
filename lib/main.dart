@@ -34,7 +34,7 @@ class ThemeProvider extends ChangeNotifier {
 
   void toggleTheme(bool isOn) {
     themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
-    notifyListeners();
+    notifyListeners(); //edipulka
   }
 }
 
@@ -169,7 +169,7 @@ class _CalculatorState extends State<Calculator> {
                             textScaleFactor: 4,
                           ),
                           margin:
-                          EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                              EdgeInsets.only(left: 30, right: 30, bottom: 20),
                         ),
                       ],
                     ),
