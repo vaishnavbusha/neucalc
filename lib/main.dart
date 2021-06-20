@@ -145,9 +145,10 @@ class _CalculatorState extends State<Calculator> {
   }
 
   Future checkbgthemecolor() async {
-    int c = await getchangedtheme() ?? setchangedtheme(bgcolor);
+    int c = await getchangedtheme() ?? setchangedtheme(0xFFE5EAED);
     setState(() {
       bgcolor = c;
+      toggletheme();
     });
   }
 
@@ -188,6 +189,7 @@ class _CalculatorState extends State<Calculator> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      Text("$bgcolor"),
                       Container(
                         //color: Colors.red,
                         child: Text(
