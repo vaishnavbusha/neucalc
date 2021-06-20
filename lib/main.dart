@@ -158,271 +158,269 @@ class _CalculatorState extends State<Calculator> {
         backgroundColor: Color(bgcolor),
         body: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: NeumorphicButton(
-                  onPressed: () {
-                    toggletheme();
-                  },
-                  style: NeumorphicStyle(
-                    color: togglebuttoncolor,
-                    shape: NeumorphicShape.concave,
-                    boxShape: NeumorphicBoxShape.circle(),
-                    lightSource: LightSource.topRight,
-                    shadowLightColor: shadowcolor,
-                    depth: 0,
-                  ),
-                  child: NeumorphicIcon(
-                    toggleicon,
-                    size: 30,
-                    style: NeumorphicStyle(color: specialtextcolor, depth: 0),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: NeumorphicButton(
+                    onPressed: () {
+                      toggletheme();
+                    },
+                    style: NeumorphicStyle(
+                      color: togglebuttoncolor,
+                      shape: NeumorphicShape.concave,
+                      boxShape: NeumorphicBoxShape.circle(),
+                      lightSource: LightSource.topRight,
+                      shadowLightColor: shadowcolor,
+                      depth: 0,
+                    ),
+                    child: NeumorphicIcon(
+                      toggleicon,
+                      size: 30,
+                      style: NeumorphicStyle(color: specialtextcolor, depth: 0),
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      //color: Colors.red,
-                      child: Text(
-                        _history,
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                              color: textcolor.withOpacity(0.5),
-                              letterSpacing: .5),
-                        ),
-                        textAlign: TextAlign.right,
-                        textScaleFactor: 2,
-                      ),
-                      margin: EdgeInsets.only(left: 30, right: 30),
-                    ),
-                    Container(
-                      //color: Colors.blue,
-                      child: AutoSizeText(
-                        _expression,
-                        maxLines: 1,
-                        overflowReplacement: Text(
-                          'Ala helana cheyaku bro',
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        //color: Colors.red,
+                        child: Text(
+                          _history,
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
-                              color: textcolor,
-                              letterSpacing: .5,
+                                color: textcolor.withOpacity(0.5),
+                                letterSpacing: .5),
+                          ),
+                          textAlign: TextAlign.right,
+                          textScaleFactor: 2,
+                        ),
+                        margin: EdgeInsets.only(left: 30, right: 30),
+                      ),
+                      Container(
+                        //color: Colors.blue,
+                        child: AutoSizeText(
+                          _expression,
+                          maxLines: 1,
+                          overflowReplacement: Text(
+                            'Ala helana cheyaku bro',
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                color: textcolor,
+                                letterSpacing: .5,
+                              ),
                             ),
                           ),
+                          style: GoogleFonts.montserrat(
+                            textStyle:
+                                TextStyle(color: textcolor, letterSpacing: .5),
+                          ),
+                          textScaleFactor: 4,
                         ),
-                        style: GoogleFonts.montserrat(
-                          textStyle:
-                              TextStyle(color: textcolor, letterSpacing: .5),
-                        ),
-                        textScaleFactor: 4,
+                        margin:
+                            EdgeInsets.only(left: 30, right: 30, bottom: 20),
                       ),
-                      margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                    ],
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Neubutton(
+                            symbol: 'AC',
+                            color: specialtextcolor,
+                            buttononclick: allClear,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: 'C',
+                            color: specialtextcolor,
+                            buttononclick: clear,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '%',
+                            color: specialtextcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '/',
+                            color: specialtextcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Neubutton(
+                            symbol: '7',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '8',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '9',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '*',
+                            color: specialtextcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Neubutton(
+                            symbol: '4',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '5',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '6',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '-',
+                            color: specialtextcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Neubutton(
+                            symbol: '1',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '2',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '3',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '+',
+                            color: specialtextcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Neubutton(
+                            symbol: '.',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '0',
+                            color: textcolor,
+                            buttononclick: numClick,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '<',
+                            color: specialtextcolor,
+                            buttononclick: del,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                          Neubutton(
+                            symbol: '=',
+                            color: specialtextcolor,
+                            buttononclick: evaluate,
+                            buttoncolor: buttoncolor,
+                            shadowcolor: shadowcolor,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                   ],
                 ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Neubutton(
-                          symbol: 'AC',
-                          color: specialtextcolor,
-                          buttononclick: allClear,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: 'C',
-                          color: specialtextcolor,
-                          buttononclick: clear,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '%',
-                          color: specialtextcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '/',
-                          color: specialtextcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Neubutton(
-                          symbol: '7',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '8',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '9',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '*',
-                          color: specialtextcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Neubutton(
-                          symbol: '4',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '5',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '6',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '-',
-                          color: specialtextcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Neubutton(
-                          symbol: '1',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '2',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '3',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '+',
-                          color: specialtextcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Neubutton(
-                          symbol: '.',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '0',
-                          color: textcolor,
-                          buttononclick: numClick,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '<',
-                          color: specialtextcolor,
-                          buttononclick: del,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                        Neubutton(
-                          symbol: '=',
-                          color: specialtextcolor,
-                          buttononclick: evaluate,
-                          buttoncolor: buttoncolor,
-                          shadowcolor: shadowcolor,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-            ],
-          ),
+              ]),
         ),
       ),
     );
   }
 }
-
-
 
 // NeumorphicButton(
 //               child: Container(
