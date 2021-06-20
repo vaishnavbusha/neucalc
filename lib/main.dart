@@ -103,6 +103,7 @@ class _CalculatorState extends State<Calculator> {
         bgcolor = 0xFF243441;
         toggleicon = Icons.terrain_rounded;
         togglebuttoncolor = Color(0xff243441);
+
         buttoncolor = Color(0xFF243441);
         shadowcolor = Color(0xFF243441);
         textcolor = Color(0xff0affee);
