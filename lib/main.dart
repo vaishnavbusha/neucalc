@@ -8,6 +8,7 @@ import 'package:math_expressions/math_expressions.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// yo noice
 main(List<String> args) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
