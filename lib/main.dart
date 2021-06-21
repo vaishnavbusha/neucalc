@@ -189,7 +189,6 @@ class _CalculatorState extends State<Calculator> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text("$bgcolor"),
                       Container(
                         //color: Colors.red,
                         child: Text(
