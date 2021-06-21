@@ -18,6 +18,9 @@ main(List<String> args) {
 class Calc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return Calculator();
   }
 }
