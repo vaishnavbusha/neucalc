@@ -1,4 +1,3 @@
-//neucalc.app
 //import 'package:calc/button.dart';
 import 'package:calc/button.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,9 @@ main(List<String> args) {
 class Calc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return Calculator();
   }
 }
@@ -30,6 +32,7 @@ class Calculator extends StatefulWidget {
 
 class _CalculatorState extends State<Calculator> {
   int bgcolor = 0xFFE5EAED;
+  List l = [0xFFE5EAED, 0xff292d36, 0xFF243441]; //white--black--bluegreen
   IconData toggleicon = Icons.wb_sunny_outlined;
   Color togglebuttoncolor = Color(0xFFE5EAED);
   Color buttoncolor = Color(0xFFE5EAED);
@@ -87,6 +90,7 @@ class _CalculatorState extends State<Calculator> {
   void toggletheme() {
     setState(() {
       if (bgcolor == 0xFFE5EAED) {
+        //change from white to black
         //bgcolor = Color(0xff393e46);
         bgcolor = 0xff292d36;
         toggleicon = Icons.bedtime;
@@ -99,8 +103,9 @@ class _CalculatorState extends State<Calculator> {
         //shadowcolor = Color(0xff243441);
         textcolor = Color(0xff0affee);
         specialtextcolor = Color(0xfffa6901);
-        setchangedtheme(bgcolor);
+        setchangedtheme(l[0]);
       } else if (bgcolor == 0xff292d36) {
+        //change from black to bluegreen
         bgcolor = 0xFF243441;
         toggleicon = Icons.terrain_rounded;
         togglebuttoncolor = Color(0xff243441);
@@ -109,8 +114,9 @@ class _CalculatorState extends State<Calculator> {
         shadowcolor = Color(0xFF243441);
         textcolor = Color(0xff0affee);
         specialtextcolor = Color(0xfffa6901);
-        setchangedtheme(bgcolor);
-      } else {
+        setchangedtheme(l[1]);
+      } else if (bgcolor == 0xFF243441) {
+        //change from bluegreen to white
         bgcolor = 0xFFE5EAED;
         toggleicon = Icons.wb_sunny_outlined;
         togglebuttoncolor = Color(0xFFE5EAED);
@@ -118,7 +124,7 @@ class _CalculatorState extends State<Calculator> {
         shadowcolor = Color(0xFFE5EAED);
         textcolor = Colors.black;
         specialtextcolor = Color(0xFFF05454);
-        setchangedtheme(bgcolor);
+        setchangedtheme(l[2]);
       }
     });
   }
@@ -145,7 +151,7 @@ class _CalculatorState extends State<Calculator> {
   }
 
   Future checkbgthemecolor() async {
-    int c = await getchangedtheme() ?? setchangedtheme(0xFFE5EAED);
+    int c = await getchangedtheme() ?? setchangedtheme(bgcolor);
     setState(() {
       bgcolor = c;
       toggletheme();
