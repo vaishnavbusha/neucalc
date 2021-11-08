@@ -1,14 +1,11 @@
-//import 'package:calc/button.dart';
 import 'package:calc/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:math_expressions/math_expressions.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// yo noice
 main(List<String> args) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -33,7 +30,7 @@ class Calculator extends StatefulWidget {
 
 class _CalculatorState extends State<Calculator> {
   int bgcolor = 0xFFE5EAED;
-  List l = [0xFFE5EAED, 0xff292d36, 0xFF243441]; //white--black--bluegreen
+  List l = [0xFFE5EAED, 0xff141518, 0xFF243441]; //white--black--bluegreen
   IconData toggleicon = Icons.wb_sunny_outlined;
   Color togglebuttoncolor = Color(0xFFE5EAED);
   Color buttoncolor = Color(0xFFE5EAED);
@@ -46,21 +43,15 @@ class _CalculatorState extends State<Calculator> {
   void numClick(String text) {
     setState(() {
       if (_expression == 'invalid') {
-        clear(text);
+        _expression = '';
+      } else if (text == 'mod') {
+        _expression += '%';
+      } else if (text == 'x') {
+        _expression += '*';
       } else {
         _expression += text;
       }
     });
-  }
-
-  getchangedtheme() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getInt('bgthemecolor');
-  }
-
-  Future setchangedtheme(int bgcolor) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setInt('bgthemecolor', bgcolor);
   }
 
   void del(String text) {
@@ -68,7 +59,7 @@ class _CalculatorState extends State<Calculator> {
       if (_expression.isEmpty) {
         _expression = 'invalid';
       } else if (_expression == 'invalid') {
-        clear(text);
+        _expression = '';
       } else {
         _expression = _expression.substring(0, _expression.length - 1);
       }
@@ -88,24 +79,70 @@ class _CalculatorState extends State<Calculator> {
     });
   }
 
+  void evaluate(String text) {
+    print(_expression);
+    setState(() {
+      if (_expression.isEmpty) {
+        _expression = 'invalid';
+      }
+      if (_expression == 'invalid' ||
+          _expression.isEmpty ||
+          ((_expression.length == 1) &&
+              ((_expression[0] == '/') ||
+                  (_expression[0] == '+') ||
+                  (_expression[0] == '-') ||
+                  (_expression[0] == '*') ||
+                  (_expression[0] == '%')))) {
+        _expression = 'invalid';
+      }
+    });
+    try {
+      Parser p = Parser();
+      Expression exp = p.parse(_expression);
+      ContextModel cm = ContextModel();
+
+      setState(() {
+        if (_expression.isEmpty || _expression == 'invalid') {
+          _expression = 'invalid';
+        } else {
+          _history = _expression;
+          _expression = exp.evaluate(EvaluationType.REAL, cm).toString();
+        }
+      });
+    } catch (e) {
+      _expression = 'invalid';
+    }
+  }
+
+//////////////////////////   theming //////////////////////////////////////////////
+  getchangedtheme() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getInt('bgthemecolor');
+  }
+
+  Future setchangedtheme(int bgcolor) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setInt('bgthemecolor', bgcolor);
+  }
+
   void toggletheme() {
     setState(() {
       if (bgcolor == 0xFFE5EAED) {
         //change from white to black
         //bgcolor = Color(0xff393e46);
-        bgcolor = 0xff292d36;
+        bgcolor = 0xff141518;
         toggleicon = Icons.bedtime;
         //togglebuttoncolor = Color(0xff202020);
-        togglebuttoncolor = Color(0xff243441);
+        togglebuttoncolor = Color(0xff141518);
         //buttoncolor = Color(0xff393e46);
-        buttoncolor = Color(0xff292d36);
+        buttoncolor = Color(0xff1A1B1F);
         //buttoncolor = Color(0xff243441);
         shadowcolor = Color(0xff202020);
         //shadowcolor = Color(0xff243441);
         textcolor = Color(0xff0affee);
         specialtextcolor = Color(0xfffa6901);
         setchangedtheme(l[0]);
-      } else if (bgcolor == 0xff292d36) {
+      } else if (bgcolor == 0xff141518) {
         //change from black to bluegreen
         bgcolor = 0xFF243441;
         toggleicon = Icons.terrain_rounded;
@@ -130,28 +167,13 @@ class _CalculatorState extends State<Calculator> {
     });
   }
 
-  void evaluate(String text) {
-    Parser p = Parser();
-    Expression exp = p.parse(_expression);
-    ContextModel cm = ContextModel();
-
-    setState(() {
-      if (_expression.isEmpty) {
-        _expression = 'invalid';
-      } else {
-        _history = _expression;
-        _expression = exp.evaluate(EvaluationType.REAL, cm).toString();
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
     checkbgthemecolor();
   }
 
-  Future checkbgthemecolor() async {
+  Future<dynamic> checkbgthemecolor() async {
     int c = await getchangedtheme() ?? setchangedtheme(bgcolor);
     setState(() {
       bgcolor = c;
@@ -159,6 +181,7 @@ class _CalculatorState extends State<Calculator> {
     });
   }
 
+////////////////////////// theming ends //////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
     return NeumorphicApp(
@@ -212,23 +235,19 @@ class _CalculatorState extends State<Calculator> {
                       ),
                       Container(
                         //color: Colors.blue,
-                        child: AutoSizeText(
-                          _expression,
-                          maxLines: 1,
-                          overflowReplacement: Text(
-                            'Ala helana cheyaku bro',
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                color: textcolor,
-                                letterSpacing: .5,
+                        child: Container(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Text(
+                              _expression,
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    color: textcolor,
+                                    letterSpacing: .5,
+                                    fontSize: 60),
                               ),
                             ),
                           ),
-                          style: GoogleFonts.montserrat(
-                            textStyle:
-                                TextStyle(color: textcolor, letterSpacing: .5),
-                          ),
-                          textScaleFactor: 4,
                         ),
                         margin:
                             EdgeInsets.only(left: 30, right: 30, bottom: 20),
@@ -236,6 +255,7 @@ class _CalculatorState extends State<Calculator> {
                     ],
                   ),
                 ),
+                ///// button codes
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -259,7 +279,7 @@ class _CalculatorState extends State<Calculator> {
                             shadowcolor: shadowcolor,
                           ),
                           Neubutton(
-                            symbol: '%',
+                            symbol: 'mod',
                             color: specialtextcolor,
                             buttononclick: numClick,
                             buttoncolor: buttoncolor,
@@ -302,7 +322,7 @@ class _CalculatorState extends State<Calculator> {
                             shadowcolor: shadowcolor,
                           ),
                           Neubutton(
-                            symbol: '*',
+                            symbol: 'x',
                             color: specialtextcolor,
                             buttononclick: numClick,
                             buttoncolor: buttoncolor,
@@ -403,7 +423,7 @@ class _CalculatorState extends State<Calculator> {
                             shadowcolor: shadowcolor,
                           ),
                           Neubutton(
-                            symbol: '<',
+                            symbol: 'del',
                             color: specialtextcolor,
                             buttononclick: del,
                             buttoncolor: buttoncolor,

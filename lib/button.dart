@@ -22,7 +22,7 @@ import 'package:flutter/services.dart';
 //       duration: Duration(milliseconds: 10),
 //       provideHapticFeedback: false,
 //       onPressed: () {
-//         widget.buttononclick(widget.symbol);
+//         widget.buttononclick(widget.symbol);ad
 //       },
 //       style: NeumorphicStyle(
 //         shape: NeumorphicShape.concave,
@@ -60,6 +60,7 @@ class Neubutton extends StatelessWidget {
       required this.buttononclick,
       required this.buttoncolor,
       required this.shadowcolor});
+
   @override
   Widget build(BuildContext context) {
     return NeumorphicButton(
@@ -81,7 +82,7 @@ class Neubutton extends StatelessWidget {
         child: Center(
             child: Text(
           symbol,
-          textScaleFactor: 2,
+          textScaleFactor: 1.5,
           style: GoogleFonts.montserrat(textStyle: TextStyle(color: color)),
         )),
         width: 50,
