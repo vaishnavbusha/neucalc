@@ -237,6 +237,7 @@ class _CalculatorState extends State<Calculator> {
                         //color: Colors.blue,
                         child: Container(
                           child: SingleChildScrollView(
+                            reverse: true,
                             scrollDirection: Axis.horizontal,
                             child: Text(
                               _expression,
