@@ -1,6 +1,9 @@
 Privacy Policy  
 ----------------
-
+### Screenshots
+![Screenshot](four.jpg)
+![Screenshot](three.jpg)
+![Screenshot](two.jpg)
 ### Introduction  
 Our privacy policy will help you understand what information we collect at AQUELA STUDIOS, how AQUELA STUDIOS uses it, and what choices you have.
 AQUELA STUDIOS built the calculator app as a free app. This SERVICE is provided by AQUELA STUDIOS at no cost and is intended for use as is.
