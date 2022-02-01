@@ -33,7 +33,6 @@ class ThemeController extends GetxController {
       bgcolor.value = 0xFF243441;
       toggleicon.value = Icons.terrain_rounded;
       togglebuttoncolor.value = Color(0xff243441);
-
       buttoncolor.value = Color(0xFF243441);
       shadowcolor.value = Color(0xFF243441);
       textcolor.value = Color(0xff0affee);
@@ -49,7 +48,6 @@ class ThemeController extends GetxController {
       textcolor.value = Colors.black;
       specialtextcolor.value = Color(0xFFF05454);
       data.write('themecolor', l[2]);
-      update();
     }
   }
 }
