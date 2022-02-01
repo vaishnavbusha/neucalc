@@ -2,9 +2,9 @@ Privacy Policy
 ----------------
 ### Screenshots
 <p float="left">
-  <img src="/four.jpg" width="100" />
-  <img src="/three.jpg" width="100" /> 
-  <img src="/two.jpg" width="100" />
+  <img src="/four.jpg" width="150" />
+  <img src="/three.jpg" width="150" /> 
+  <img src="/two.jpg" width="150" />
 </p>
 ### Introduction  
 Our privacy policy will help you understand what information we collect at AQUELA STUDIOS, how AQUELA STUDIOS uses it, and what choices you have.
