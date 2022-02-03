@@ -20,7 +20,7 @@ class _CalculatorState extends State<Calculator> {
   @override
   void initState() {
     themecontroller.bgcolor.value =
-        themecontroller.data.read('themecolor') ?? 0xff141518;
+        themecontroller.data.read('themecolor') ?? 0xFFE5EAED;
     themecontroller.toggletheme();
     super.initState();
   }
