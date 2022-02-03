@@ -12,6 +12,9 @@ class ThemeController extends GetxController {
   var textcolor = Colors.black.obs;
   var specialtextcolor = Color(0xFFF05454).obs;
   final data = GetStorage();
+  void firstapprunthemecolor() {
+    data.write('themecolor', l[0]);
+  }
 
   void toggletheme() {
     if (bgcolor.value == 0xFFE5EAED) {
@@ -33,6 +36,7 @@ class ThemeController extends GetxController {
       bgcolor.value = 0xFF243441;
       toggleicon.value = Icons.terrain_rounded;
       togglebuttoncolor.value = Color(0xff243441);
+
       buttoncolor.value = Color(0xFF243441);
       shadowcolor.value = Color(0xFF243441);
       textcolor.value = Color(0xff0affee);

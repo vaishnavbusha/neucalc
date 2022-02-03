@@ -7,10 +7,31 @@ import '../controller/controller.dart';
 import '../model/button.dart';
 import '../controller/themecontroller.dart';
 
-class Calculator extends StatelessWidget {
-  final controller = Get.put(CalculaterController());
-  final themecontroller = Get.put(ThemeController());
+final controller = Get.put(CalculaterController());
+final themecontroller = Get.put(ThemeController());
 
+class Calculator extends StatefulWidget {
+  const Calculator({Key? key}) : super(key: key);
+  @override
+  _CalculatorState createState() => _CalculatorState();
+}
+
+class _CalculatorState extends State<Calculator> {
+  @override
+  void initState() {
+    themecontroller.bgcolor.value =
+        themecontroller.data.read('themecolor') ?? 0xff141518;
+    themecontroller.toggletheme();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Calculators();
+  }
+}
+
+class Calculators extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -55,18 +76,16 @@ class Calculator extends StatelessWidget {
                         //color: Colors.red,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.vertical,
-                          child: Obx(
-                            () => Text(
-                              controller.history.value,
-                              style: GoogleFonts.montserrat(
-                                textStyle: TextStyle(
-                                    color: themecontroller.textcolor.value
-                                        .withOpacity(0.5),
-                                    letterSpacing: .5,
-                                    fontSize: height / 24),
-                              ),
-                              textAlign: TextAlign.right,
+                          child: Text(
+                            controller.history.value,
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                  color: themecontroller.textcolor.value
+                                      .withOpacity(0.5),
+                                  letterSpacing: .5,
+                                  fontSize: height / 24),
                             ),
+                            textAlign: TextAlign.right,
                           ),
                         ),
                         margin: EdgeInsets.only(
@@ -80,15 +99,13 @@ class Calculator extends StatelessWidget {
                           child: SingleChildScrollView(
                             reverse: true,
                             scrollDirection: Axis.horizontal,
-                            child: Obx(
-                              () => Text(
-                                controller.expression.value,
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                    color: themecontroller.textcolor.value,
-                                    letterSpacing: .5,
-                                    fontSize: height / 17, // value is 60
-                                  ),
+                            child: Text(
+                              controller.expression.value,
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                  color: themecontroller.textcolor.value,
+                                  letterSpacing: .5,
+                                  fontSize: height / 17, // value is 60
                                 ),
                               ),
                             ),
