@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ThemeController extends GetxController {
-  List l = [0xFFE5EAED, 0xff141518, 0xFF243441]; //white--black--bluegreen
+  List l = [0xFFE5EAED, 0xff111111, 0xFF243441]; //white--black--bluegreen
   var bgcolor = 0xFFE5EAED.obs;
   var toggleicon = Icons.wb_sunny_outlined.obs;
   var togglebuttoncolor = Color(0xFFE5EAED).obs;
@@ -19,19 +19,20 @@ class ThemeController extends GetxController {
   void toggletheme() {
     if (bgcolor.value == 0xFFE5EAED) {
       //change from white to black
-      bgcolor.value = 0xff141518;
+      bgcolor.value = 0xff111111;
       toggleicon.value = Icons.bedtime;
       //togglebuttoncolor = Color(0xff202020);
       togglebuttoncolor.value = Color(0xff141518);
       //buttoncolor = Color(0xff393e46);
-      buttoncolor.value = Color(0xff1A1B1F);
+      buttoncolor.value = Color(0xff111111);
       //buttoncolor = Color(0xff243441);
-      shadowcolor.value = Color(0xff202020);
+      shadowcolor.value = Color(0xff151515);
+      //shadowcolor.value = Color(0xff121212);
       //shadowcolor = Color(0xff243441);
       textcolor.value = Color(0xff0affee);
       specialtextcolor.value = Color(0xfffa6901);
       data.write('themecolor', l[0]);
-    } else if (bgcolor.value == 0xff141518) {
+    } else if (bgcolor.value == 0xff111111) {
       //change from black to bluegreen
       bgcolor.value = 0xFF243441;
       toggleicon.value = Icons.terrain_rounded;
@@ -39,6 +40,8 @@ class ThemeController extends GetxController {
 
       buttoncolor.value = Color(0xFF243441);
       shadowcolor.value = Color(0xFF243441);
+      //e0ae1a
+      //textcolor.value = Color(0xffe0ae1a);
       textcolor.value = Color(0xff0affee);
       specialtextcolor.value = Color(0xfffa6901);
       data.write('themecolor', l[1]);

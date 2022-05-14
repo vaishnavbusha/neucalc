@@ -1,8 +1,10 @@
 import 'package:calc/controller/themecontroller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:new_version/new_version.dart';
 import '../controller/controller.dart';
 import '../model/button.dart';
 import '../controller/themecontroller.dart';
@@ -22,7 +24,25 @@ class _CalculatorState extends State<Calculator> {
     themecontroller.bgcolor.value =
         themecontroller.data.read('themecolor') ?? 0xFFE5EAED;
     themecontroller.toggletheme();
+    checkversion();
     super.initState();
+  }
+
+  void checkversion() async {
+    final newversion = NewVersion(androidId: "com.aquelastudios.calculater");
+    final status = await newversion.getVersionStatus();
+    newversion.showUpdateDialog(
+        context: context,
+        versionStatus: status!,
+        dialogTitle: "Update Available!",
+        dismissButtonText: "Exit",
+        dismissAction: () => SystemNavigator.pop(),
+        updateButtonText: "Update",
+        dialogText: "Please update the app from " +
+            "${status.localVersion}" +
+            " to " +
+            " ${status.storeVersion}");
+    print("store " + status.storeVersion);
   }
 
   @override
@@ -76,16 +96,18 @@ class Calculators extends StatelessWidget {
                         //color: Colors.red,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.vertical,
-                          child: Text(
-                            controller.history.value,
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: themecontroller.textcolor.value
-                                      .withOpacity(0.5),
-                                  letterSpacing: .5,
-                                  fontSize: height / 24),
+                          child: Obx(
+                            () => Text(
+                              controller.history.value,
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    color: themecontroller.textcolor.value
+                                        .withOpacity(0.5),
+                                    letterSpacing: .5,
+                                    fontSize: height / 24),
+                              ),
+                              textAlign: TextAlign.right,
                             ),
-                            textAlign: TextAlign.right,
                           ),
                         ),
                         margin: EdgeInsets.only(
@@ -94,18 +116,19 @@ class Calculators extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        //color: Colors.blue,
                         child: Container(
                           child: SingleChildScrollView(
                             reverse: true,
                             scrollDirection: Axis.horizontal,
-                            child: Text(
-                              controller.expression.value,
-                              style: GoogleFonts.montserrat(
-                                textStyle: TextStyle(
-                                  color: themecontroller.textcolor.value,
-                                  letterSpacing: .5,
-                                  fontSize: height / 17, // value is 60
+                            child: Obx(
+                              () => Text(
+                                controller.expression.value,
+                                style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                    color: themecontroller.textcolor.value,
+                                    letterSpacing: .5,
+                                    fontSize: height / 17, // value is 60
+                                  ),
                                 ),
                               ),
                             ),

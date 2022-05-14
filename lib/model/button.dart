@@ -30,18 +30,21 @@ class Neubutton extends StatelessWidget {
         lightSource: LightSource.topRight,
         //shadowDarkColor: Color(0xFFE5EAED),
         shadowLightColor: shadowcolor,
-        depth: 9,
+        depth: 6,
       ),
       child: Container(
+        width: MediaQuery.of(context).size.width * 0.125, // width is 50
+        height: MediaQuery.of(context).size.width * 0.125,
         child: Center(
+          child: FittedBox(
             child: Text(
-          symbol,
-          style: GoogleFonts.montserrat(
-              textStyle: TextStyle(color: color),
-              fontSize: MediaQuery.of(context).size.width / 21.6),
-        )),
-        width: MediaQuery.of(context).size.width / 8, // width is 50
-        height: MediaQuery.of(context).size.width / 8, // width is 50
+              symbol,
+              style: GoogleFonts.montserrat(
+                  textStyle: TextStyle(color: color),
+                  fontSize: MediaQuery.of(context).size.width * 0.045),
+            ),
+          ),
+        ), // width is 50
       ),
     );
   }

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:get/get.dart';
 import 'package:math_expressions/math_expressions.dart';
 
@@ -62,14 +64,35 @@ class CalculaterController extends GetxController {
       } else {
         history.value = expression.value;
         temp = exp.evaluate(EvaluationType.REAL, cm).toString();
+        print(temp);
         if (temp[temp.length - 1] == '0') {
           expression.value = temp.substring(0, temp.length - 2);
         } else {
-          expression.value = exp.evaluate(EvaluationType.REAL, cm).toString();
+          if (checkdouble(temp)) {
+            expression.value = removeTrailingZerosAndNumberfy(
+                (double.tryParse(temp))!.toStringAsFixed(4));
+          } else {
+            expression.value = temp;
+          }
         }
+        print(expression.value);
       }
     } catch (e) {
       expression.value = 'invalid';
     }
+  }
+
+  bool checkdouble(String s) {
+    if (s == null) {
+      return false;
+    }
+    return double.tryParse(s) != null;
+  }
+
+  removeTrailingZerosAndNumberfy(String n) {
+    RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+
+    String s = double.tryParse(n).toString().replaceAll(regex, '');
+    return s;
   }
 }

@@ -22,6 +22,7 @@ class Calc extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: Calculator(),
+      //home: NeumorphismPage(),
     );
   }
 }
