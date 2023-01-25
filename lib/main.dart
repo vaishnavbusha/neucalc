@@ -1,12 +1,18 @@
+import 'package:calc/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+
+import 'package:hive_flutter/hive_flutter.dart';
 import './view/calculator.dart';
+import 'model/historymodel.dart';
 
 main(List<String> args) async {
-  await GetStorage.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  // await GetStorage.init();
+  await Hive.initFlutter();
+  Hive.registerAdapter(HistoryModelAdapter());
+  await Hive.openBox(hiveDataVariable);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
@@ -19,10 +25,9 @@ class Calc extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Calculator(),
-      //home: NeumorphismPage(),
     );
   }
 }

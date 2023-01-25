@@ -1,91 +1,148 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'package:get/get.dart';
+import 'package:calc/constants.dart';
+import 'package:calc/controller/historycontroller.dart';
+import 'package:calc/controller/hive_controller.dart';
+import 'package:calc/model/historymodel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:math_expressions/math_expressions.dart';
 
-class CalculaterController extends GetxController {
-  var expression = ''.obs;
-  var history = ''.obs;
+class CalculaterController extends ChangeNotifier {
+  // var expression = ''.obs;
+  // var history = ''.obs;
+  var expression = '';
+  var history = '';
+  var cursorCurrPos;
+  int cursorAferDelete = 0;
+  final textFieldController = TextEditingController();
   void numClick(String text) {
-    if (expression.value == 'invalid') {
-      expression.value = '';
+    if (expression == 'Invalid') {
+      expression = '';
     } else if (text == 'mod') {
-      expression.value += '%';
+      expression += '%';
     } else if (text == 'x') {
-      expression.value += '*';
+      expression += '*';
     } else if (text == '_') {
-      expression.value += '-';
+      expression += '-';
     } else {
-      expression.value += text;
+      expression += text;
     }
+    textFieldController.addListener(() {
+      getCursorCurrPos();
+    });
+    textFieldController.text = expression;
+    textFieldController.selection =
+        TextSelection.collapsed(offset: textFieldController.text.length);
+    notifyListeners();
+  }
+
+  int getCursorCurrPos() {
+    cursorCurrPos = textFieldController.selection.base.offset;
+    print(cursorCurrPos);
+    return cursorCurrPos;
   }
 
   void del(String text) {
-    if (expression.isEmpty)
-      expression.value = 'invalid';
-    else if (expression.value == 'invalid')
-      expression.value = '';
-    else
-      expression.value =
-          (expression.value).substring(0, (expression.value).length - 1);
+    try {
+      if (expression.isEmpty)
+        expression = 'Invalid';
+      else if (expression == 'Invalid')
+        expression = '';
+      else {
+        expression = (expression).substring(0, getCursorCurrPos() - 1) +
+            (expression).substring(getCursorCurrPos(), (expression).length);
+        cursorAferDelete = getCursorCurrPos();
+        print('cursorafterdel ' + cursorAferDelete.toString());
+      }
+
+      //expression = (expression).substring(0, (expression).length - 1);
+      textFieldController.text = expression;
+    }
+    //getCursorCurrPos();
+    catch (e) {
+      print(e);
+    }
+    textFieldController.selection =
+        TextSelection.collapsed(offset: cursorAferDelete - 1);
+
+    notifyListeners();
   }
 
   void allClear(String text) {
-    history.value = '';
-    expression.value = '';
+    history = '';
+    expression = '';
+    textFieldController.text = expression;
+    notifyListeners();
   }
 
   void clear(String text) {
-    expression.value = '';
+    expression = '';
+    textFieldController.text = expression;
+    notifyListeners();
   }
 
   void evaluate(String text) {
     String temp;
     if (expression.isEmpty) {
-      expression.value = 'invalid';
+      expression = 'Invalid';
     }
-    if (expression.value == 'invalid' ||
+    if (expression == 'Invalid' ||
         expression.isEmpty ||
-        ((expression.value).length == 1) &&
-            ((expression.value[0] == '/') ||
-                (expression.value[0] == '+') ||
-                (expression.value[0] == '-') ||
-                (expression.value[0] == '*') ||
-                (expression.value[0] == '%'))) {
-      expression.value = 'invalid';
+        ((expression).length == 1) &&
+            ((expression[0] == '/') ||
+                (expression[0] == '+') ||
+                (expression[0] == '-') ||
+                (expression[0] == '*') ||
+                (expression[0] == '%'))) {
+      expression = 'Invalid';
     }
     try {
       Parser p = Parser();
-      Expression exp = p.parse(expression.value);
+      Expression exp = p.parse(expression);
       ContextModel cm = ContextModel();
 
-      if ((expression.value).isEmpty || expression.value == 'invalid') {
-        expression.value = 'invalid';
+      if ((expression).isEmpty || expression == 'Invalid') {
+        expression = 'Invalid';
       } else {
-        history.value = expression.value;
+        history = expression;
         temp = exp.evaluate(EvaluationType.REAL, cm).toString();
-        print(temp);
+
         if (temp[temp.length - 1] == '0') {
-          expression.value = temp.substring(0, temp.length - 2);
+          expression = temp.substring(0, temp.length - 2);
         } else {
           if (checkdouble(temp)) {
-            expression.value = removeTrailingZerosAndNumberfy(
+            expression = removeTrailingZerosAndNumberfy(
                 (double.tryParse(temp))!.toStringAsFixed(4));
           } else {
-            expression.value = temp;
+            expression = temp;
           }
         }
-        print(expression.value);
+      }
+      textFieldController.text = expression;
+      textFieldController.selection =
+          TextSelection.collapsed(offset: textFieldController.text.length);
+      if (textFieldController.text == 'Invalid' ||
+          textFieldController.text == 'Infinity') {
+        print('error values cannot be stored in history');
+      } else {
+        historyData.add(
+            HistoryModel(expression_value: expression, history_value: history));
+        HiveController.saveHistoryListHIVE(historyData);
+        print(HiveController.getHistoryListHIVE());
       }
     } catch (e) {
-      expression.value = 'invalid';
+      expression = 'Invalid';
     }
+    print(expression);
+    notifyListeners();
   }
 
   bool checkdouble(String s) {
     if (s == null) {
+      notifyListeners();
       return false;
     }
+    notifyListeners();
     return double.tryParse(s) != null;
   }
 
@@ -93,6 +150,7 @@ class CalculaterController extends GetxController {
     RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
 
     String s = double.tryParse(n).toString().replaceAll(regex, '');
+    notifyListeners();
     return s;
   }
 }
