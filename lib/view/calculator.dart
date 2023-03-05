@@ -7,6 +7,7 @@ import 'package:calc/view/buttonsgrid.dart';
 import 'package:calc/view/history.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
@@ -312,13 +313,13 @@ class _CalculatorsState extends State<Calculators> {
                           } else {
                             return (tc.font != 'Montserrat')
                                 ? TextStyle(
+                                    height: 1.15,
                                     fontFamily: 'regular',
                                     color: Color(tc.textcolor),
                                     fontSize: height / 17)
                                 : GoogleFonts.montserrat(
                                     textStyle: TextStyle(
                                       color: Color(tc.textcolor),
-
                                       fontSize: height / 17, // value is 60
                                     ),
                                   );
@@ -329,10 +330,13 @@ class _CalculatorsState extends State<Calculators> {
                         return Padding(
                           padding: EdgeInsets.only(right: 25, left: 25),
                           child: TextField(
+                            scrollController: cc.scrollController,
                             textAlignVertical: TextAlignVertical.center,
+                            clipBehavior: Clip.antiAlias,
                             cursorColor: Color(tc.specialtextcolor),
                             textAlign: TextAlign.end,
                             focusNode: cc.unitCodeCtrlFocusNode,
+                            dragStartBehavior: DragStartBehavior.down,
                             showCursor: true,
                             autofocus: true,
                             readOnly: true,

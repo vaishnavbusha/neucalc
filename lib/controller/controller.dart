@@ -19,14 +19,17 @@ class CalculaterController extends ChangeNotifier {
   bool hasCursorPosChanged = false;
   final textFieldController = TextEditingController();
   final FocusNode unitCodeCtrlFocusNode = FocusNode();
+  final ScrollController scrollController = ScrollController();
 
   void numClick(String text) {
+    print(text);
+    print(textFieldController.text);
     if (textFieldController.text == 'Invalid' ||
         textFieldController.text == 'Infinity') {
       expression = '';
     } else if (textFieldController.text.length == getCursorCurrPos() ||
         expression.isEmpty) {
-      if (expression == 'Invalid') {
+      if (text == 'Invalid') {
         expression = '';
       } else if (text == 'mod') {
         expression += '%';
@@ -44,8 +47,10 @@ class CalculaterController extends ChangeNotifier {
       textFieldController.selection =
           TextSelection.collapsed(offset: textFieldController.text.length);
     } else if (expression.isNotEmpty) {
-      if (expression == 'Invalid') {
-        expression = '';
+      if (textFieldController.text == 'Invalid' ||
+          textFieldController.text == 'Infinity') {
+        expression = 'asd';
+        textFieldController.text = expression;
       } else if (text == 'mod') {
         expression = (expression).substring(0, getCursorCurrPos()) +
             '%' +
@@ -70,13 +75,24 @@ class CalculaterController extends ChangeNotifier {
     } else {
       print('unkown error occured');
     }
+    if (textFieldController.text.length > 12) {
+      scrollController.jumpTo(
+        scrollController.position.maxScrollExtent + 32,
+
+        // duration: Duration(milliseconds: 100),
+        // curve: Curves.elasticInOut,
+      );
+    }
+    // scrollController.addListener(() {
+    //   scrollController.jumpTo(scrollController.position.minScrollExtent);
+    // });
+
     notifyListeners();
   }
 
   int getCursorCurrPos() {
     cursorCurrPos = textFieldController.selection.base.offset;
-
-    print('cursor pos= ' + cursorCurrPos.toString());
+    //print('cursor pos= ' + cursorCurrPos.toString());
     return cursorCurrPos;
   }
 
@@ -84,9 +100,10 @@ class CalculaterController extends ChangeNotifier {
     try {
       if (expression.isEmpty)
         expression = 'Invalid';
-      else if (expression == 'Invalid')
+      else if (expression == 'Invalid' || expression == 'Infinity')
         expression = '';
-      else if (getCursorCurrPos() == 0) {
+      else if (getCursorCurrPos() == 0 &&
+          textFieldController.text.length != 0) {
         textFieldController.selection =
             TextSelection.collapsed(offset: textFieldController.text.length);
       } else {
@@ -180,7 +197,7 @@ class CalculaterController extends ChangeNotifier {
           history_value: history,
           date_time: formattedDate));
       HiveController.saveHistoryListHIVE(historyData);
-      print(HiveController.getHistoryListHIVE());
+      //print(HiveController.getHistoryListHIVE());
     }
     notifyListeners();
   }

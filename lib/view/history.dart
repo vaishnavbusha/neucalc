@@ -45,67 +45,73 @@ class _HistoryPageState extends State<HistoryPage> {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 10),
-            child: GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (ctx) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                    backgroundColor: Color(widget.color),
-                    title: Text(
-                      "Delete History",
-                      style: TextStyle(
-                          fontFamily: 'gilroy_regular',
-                          fontWeight: FontWeight.bold,
-                          color: Color(widget.divider_color)),
-                    ),
-                    content: Text(
-                      "Would you like to clear entire history ?",
-                      style: TextStyle(
-                          fontFamily: 'gilroy_regular',
-                          color: Color(widget.evaluated_expression_color)),
-                    ),
-                    actions: <Widget>[
-                      FlatButton(
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                        },
-                        child: Text(
-                          "NO",
-                          style: TextStyle(
-                              fontFamily: 'gilroy_regular',
-                              fontWeight: FontWeight.bold,
-                              color: Color(widget.divider_color)),
-                        ),
-                      ),
-                      FlatButton(
-                        minWidth: 70,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0))),
-                        color: Color(widget.divider_color),
-                        onPressed: () {
-                          historyController.deleteHistory();
-                          Navigator.of(ctx).pop();
-                        },
-                        child: Text(
-                          "YES",
-                          style: TextStyle(
-                              fontFamily: 'gilroy_regular',
-                              fontWeight: FontWeight.bold,
-                              color: Color(widget.color)),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              child: Icon(
-                Icons.clear_rounded,
-                color: Colors.red,
-              ),
-            ),
+            child: Consumer<HistoryController>(builder: (context, hc, __) {
+              return (hc.tempHistoryListData.isNotEmpty)
+                  ? GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            backgroundColor: Color(widget.color),
+                            title: Text(
+                              "Delete History",
+                              style: TextStyle(
+                                  fontFamily: 'gilroy_regular',
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(widget.divider_color)),
+                            ),
+                            content: Text(
+                              "Would you like to clear entire history ?",
+                              style: TextStyle(
+                                  fontFamily: 'gilroy_regular',
+                                  color:
+                                      Color(widget.evaluated_expression_color)),
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                },
+                                child: Text(
+                                  "NO",
+                                  style: TextStyle(
+                                      fontFamily: 'gilroy_regular',
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(widget.divider_color)),
+                                ),
+                              ),
+                              FlatButton(
+                                minWidth: 70,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                color: Color(widget.divider_color),
+                                onPressed: () {
+                                  historyController.deleteHistory();
+                                  Navigator.of(ctx).pop();
+                                },
+                                child: Text(
+                                  "YES",
+                                  style: TextStyle(
+                                      fontFamily: 'gilroy_regular',
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(widget.color)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.delete_rounded, color: Colors.red),
+                    )
+                  : Icon(
+                      Icons.delete_rounded,
+                      color: Colors.grey,
+                    );
+            }),
           )
         ],
         iconTheme: IconThemeData(color: Color(widget.divider_color)),
