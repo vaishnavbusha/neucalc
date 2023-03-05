@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.1.0+3
+version: 1.2.0+4
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -31,15 +31,15 @@ dependencies:
   flutter_neumorphic: ^3.2.0
   google_fonts: ^2.1.0
   math_expressions: ^2.1.1
-  auto_size_text: ^3.0.0-nullsafety.0
-  shared_preferences: ^2.0.5
-  get: ^4.6.1
-  get_storage: ^2.0.3
-  new_version: ^0.2.0
+  new_version: ^0.3.1
   provider: ^6.0.3
   hive: ^2.0.3
+  intl: 0.15.7
   hive_flutter: ^1.0.0
   flutter_screenutil: ^5.5.3+2
+  #url_launcher: ^6.1.8
+  store_redirect: ^2.0.1
+  #in_app_update: ^3.0.0
 dependency_overrides:
   # fix `packageRoot`compile error for iOS, because `path_provider` is using an old version of `platform`
   platform: ^3.0.0 # overrides `path_provider`
@@ -84,6 +84,9 @@ flutter:
      - family: 'regular'
        fonts:
          - asset: fonts/SovietProgram.ttf
+     - family: 'gilroy_regular'
+       fonts:
+         - asset: fonts/Gilroy-Regular.ttf     
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

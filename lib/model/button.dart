@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:calc/controller/themecontroller.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,34 +46,24 @@ class Neubutton extends StatelessWidget {
         height: MediaQuery.of(context).size.width * 0.120,
         child: Center(
           child: Consumer<ThemeController>(builder: (context, tc, __) {
-            return Padding(
-                padding: (tc.font != 'Montserrat')
-                    ? (symbol == '_')
-                        ? EdgeInsets.only(bottom: 20)
-                        : EdgeInsets.all(0)
-                    : (symbol == '_')
-                        ? EdgeInsets.only(bottom: 17)
-                        : EdgeInsets.all(0),
-                child: Text(
-                  symbol,
-                  style: (tc.font != 'Montserrat')
-                      ? TextStyle(
-                          fontFamily: 'regular',
-                          color: color,
-                          fontSize: fontsize)
-                      : GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                            color: color,
-                            fontWeight:
-                                (isNum) ? FontWeight.normal : FontWeight.bold,
-                            letterSpacing: .5,
-                            fontSize: fontsize,
-                          ),
-                        ),
-                  // style: GoogleFonts.montserrat(
-                  //     textStyle: TextStyle(color: color),
-                  //     fontSize: MediaQuery.of(context).size.width * 0.045),
-                ));
+            return Text(
+              symbol,
+              style: (tc.font != 'Montserrat')
+                  ? TextStyle(
+                      fontFamily: 'regular', color: color, fontSize: fontsize)
+                  : GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                        color: color,
+                        fontWeight:
+                            (isNum) ? FontWeight.normal : FontWeight.bold,
+                        letterSpacing: .5,
+                        fontSize: fontsize,
+                      ),
+                    ),
+              // style: GoogleFonts.montserrat(
+              //     textStyle: TextStyle(color: color),
+              //     fontSize: MediaQuery.of(context).size.width * 0.045),
+            );
           }),
         ), // width is 50
       ),

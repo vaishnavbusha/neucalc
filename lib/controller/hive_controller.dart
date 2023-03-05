@@ -1,7 +1,6 @@
 import 'package:calc/constants.dart';
 import 'package:calc/model/historymodel.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+
 import 'package:hive/hive.dart';
 
 class HiveController {
@@ -18,6 +17,10 @@ class HiveController {
     return box.get('historyList', defaultValue: []);
   }
 
+  static restoreHistoryDataOnStartUp() {
+    historyData = box.get('historyList', defaultValue: <HistoryModel>[]);
+  }
+
   static saveColors({
     required int bgcolor,
     // required int togglebuttoncolor,
@@ -25,7 +28,7 @@ class HiveController {
     // required int shadowcolor,
     // required int textcolor,
     // required int specialtextcolor,
-    // required IconData toggleIcon,
+    //required IconData toggleIcon,
   }) {
     box.put('bgcolor', bgcolor);
     // box.put('togglebuttoncolor', togglebuttoncolor);
@@ -33,15 +36,15 @@ class HiveController {
     // box.put('shadowcolor', shadowcolor);
     // box.put('textcolor', textcolor);
     // box.put('specialtextcolor', specialtextcolor);
-    // box.put('toggleIcon', toggleIcon);
+    //box.put('toggleIcon', toggleIcon);
   }
 
   static getSavedFont() {
-    box.put('fontname', box.get('fontname', defaultValue: 'Montserrat'));
+    return box.get('fontname', defaultValue: 'Montserrat');
   }
 
   static getSavedColors() {
-    box.put('bgcolor', box.get('bgcolor', defaultValue: bgcolor));
+    return box.get('bgcolor', defaultValue: 0xFFE5EAED);
     // box.put('togglebuttoncolor',
     //     box.get('togglebuttoncolor', defaultValue: togglebuttoncolor));
     // box.put('buttoncolor', box.get('buttoncolor', defaultValue: buttoncolor));

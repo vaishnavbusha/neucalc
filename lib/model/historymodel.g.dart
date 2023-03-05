@@ -19,17 +19,20 @@ class HistoryModelAdapter extends TypeAdapter<HistoryModel> {
     return HistoryModel(
       expression_value: fields[0] as String,
       history_value: fields[1] as String,
+      date_time: fields[2] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, HistoryModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.expression_value)
       ..writeByte(1)
-      ..write(obj.history_value);
+      ..write(obj.history_value)
+      ..writeByte(2)
+      ..write(obj.date_time);
   }
 
   @override

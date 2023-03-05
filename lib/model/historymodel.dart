@@ -9,5 +9,10 @@ class HistoryModel {
   String expression_value;
   @HiveField(1)
   String history_value;
-  HistoryModel({required this.expression_value, required this.history_value});
+  @HiveField(2)
+  String date_time;
+  HistoryModel(
+      {required this.expression_value,
+      required this.history_value,
+      required this.date_time});
 }

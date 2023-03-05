@@ -1,10 +1,12 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, import_of_legacy_library_into_null_safe
 
 import 'package:calc/constants.dart';
-import 'package:calc/controller/historycontroller.dart';
+
 import 'package:calc/controller/hive_controller.dart';
 import 'package:calc/model/historymodel.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+
 import 'package:math_expressions/math_expressions.dart';
 
 class CalculaterController extends ChangeNotifier {
@@ -14,31 +16,67 @@ class CalculaterController extends ChangeNotifier {
   var history = '';
   var cursorCurrPos;
   int cursorAferDelete = 0;
+  bool hasCursorPosChanged = false;
   final textFieldController = TextEditingController();
+  final FocusNode unitCodeCtrlFocusNode = FocusNode();
+
   void numClick(String text) {
-    if (expression == 'Invalid') {
+    if (textFieldController.text == 'Invalid' ||
+        textFieldController.text == 'Infinity') {
       expression = '';
-    } else if (text == 'mod') {
-      expression += '%';
-    } else if (text == 'x') {
-      expression += '*';
-    } else if (text == '_') {
-      expression += '-';
+    } else if (textFieldController.text.length == getCursorCurrPos() ||
+        expression.isEmpty) {
+      if (expression == 'Invalid') {
+        expression = '';
+      } else if (text == 'mod') {
+        expression += '%';
+      } else if (text == 'x') {
+        expression += '*';
+      } else if (text == '_') {
+        expression += '-';
+      } else {
+        expression += text;
+      }
+      textFieldController.addListener(() {
+        getCursorCurrPos();
+      });
+      textFieldController.text = expression;
+      textFieldController.selection =
+          TextSelection.collapsed(offset: textFieldController.text.length);
+    } else if (expression.isNotEmpty) {
+      if (expression == 'Invalid') {
+        expression = '';
+      } else if (text == 'mod') {
+        expression = (expression).substring(0, getCursorCurrPos()) +
+            '%' +
+            (expression).substring(getCursorCurrPos(), (expression).length);
+      } else if (text == 'x') {
+        expression = (expression).substring(0, getCursorCurrPos()) +
+            '*' +
+            (expression).substring(getCursorCurrPos(), (expression).length);
+      } else if (text == '_') {
+        expression = (expression).substring(0, getCursorCurrPos()) +
+            '-' +
+            (expression).substring(getCursorCurrPos(), (expression).length);
+      } else {
+        expression = (expression).substring(0, getCursorCurrPos()) +
+            text +
+            (expression).substring(getCursorCurrPos(), (expression).length);
+      }
+      cursorAferDelete = getCursorCurrPos() + 1;
+      textFieldController.text = expression;
+      textFieldController.selection =
+          TextSelection.collapsed(offset: cursorAferDelete);
     } else {
-      expression += text;
+      print('unkown error occured');
     }
-    textFieldController.addListener(() {
-      getCursorCurrPos();
-    });
-    textFieldController.text = expression;
-    textFieldController.selection =
-        TextSelection.collapsed(offset: textFieldController.text.length);
     notifyListeners();
   }
 
   int getCursorCurrPos() {
     cursorCurrPos = textFieldController.selection.base.offset;
-    print(cursorCurrPos);
+
+    print('cursor pos= ' + cursorCurrPos.toString());
     return cursorCurrPos;
   }
 
@@ -48,11 +86,13 @@ class CalculaterController extends ChangeNotifier {
         expression = 'Invalid';
       else if (expression == 'Invalid')
         expression = '';
-      else {
+      else if (getCursorCurrPos() == 0) {
+        textFieldController.selection =
+            TextSelection.collapsed(offset: textFieldController.text.length);
+      } else {
         expression = (expression).substring(0, getCursorCurrPos() - 1) +
             (expression).substring(getCursorCurrPos(), (expression).length);
         cursorAferDelete = getCursorCurrPos();
-        print('cursorafterdel ' + cursorAferDelete.toString());
       }
 
       //expression = (expression).substring(0, (expression).length - 1);
@@ -64,7 +104,10 @@ class CalculaterController extends ChangeNotifier {
     }
     textFieldController.selection =
         TextSelection.collapsed(offset: cursorAferDelete - 1);
-
+    if (getCursorCurrPos() == 0) {
+      textFieldController.selection =
+          TextSelection.collapsed(offset: textFieldController.text.length);
+    }
     notifyListeners();
   }
 
@@ -96,12 +139,13 @@ class CalculaterController extends ChangeNotifier {
                 (expression[0] == '%'))) {
       expression = 'Invalid';
     }
+
     try {
       Parser p = Parser();
       Expression exp = p.parse(expression);
       ContextModel cm = ContextModel();
 
-      if ((expression).isEmpty || expression == 'Invalid') {
+      if (expression.isEmpty || expression == 'Invalid') {
         expression = 'Invalid';
       } else {
         history = expression;
@@ -118,22 +162,26 @@ class CalculaterController extends ChangeNotifier {
           }
         }
       }
-      textFieldController.text = expression;
-      textFieldController.selection =
-          TextSelection.collapsed(offset: textFieldController.text.length);
-      if (textFieldController.text == 'Invalid' ||
-          textFieldController.text == 'Infinity') {
-        print('error values cannot be stored in history');
-      } else {
-        historyData.add(
-            HistoryModel(expression_value: expression, history_value: history));
-        HiveController.saveHistoryListHIVE(historyData);
-        print(HiveController.getHistoryListHIVE());
-      }
     } catch (e) {
       expression = 'Invalid';
     }
-    print(expression);
+    textFieldController.text = expression;
+    textFieldController.selection =
+        TextSelection.collapsed(offset: textFieldController.text.length);
+
+    if (textFieldController.text == 'Invalid' ||
+        textFieldController.text == 'Infinity') {
+      print('error values cannot be stored in history');
+    } else {
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat('dd MMM, yyyy – kk:mm:ss').format(now);
+      historyData.add(HistoryModel(
+          expression_value: expression,
+          history_value: history,
+          date_time: formattedDate));
+      HiveController.saveHistoryListHIVE(historyData);
+      print(HiveController.getHistoryListHIVE());
+    }
     notifyListeners();
   }
 

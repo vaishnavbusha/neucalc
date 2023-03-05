@@ -159,8 +159,8 @@ class ButtonGrid extends StatelessWidget {
                 isNum: true,
               ),
               Neubutton(
-                symbol: '_',
-                fontsize: MediaQuery.of(context).size.width * 0.08,
+                symbol: '-',
+                fontsize: MediaQuery.of(context).size.width * 0.09,
                 color: Color(tc.specialtextcolor),
                 buttononclick: calculaterController.numClick,
                 buttoncolor: Color(tc.buttoncolor),

@@ -1,9 +1,6 @@
 import 'package:calc/controller/hive_controller.dart';
-import 'package:calc/model/historymodel.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:hive/hive.dart';
 
-import '../constants.dart';
+import 'package:flutter/cupertino.dart';
 
 class HistoryController extends ChangeNotifier {
   List tempHistoryListData = [];
